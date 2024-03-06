@@ -10,13 +10,13 @@ public class SLLdasar {
         sll.addAfter(10, 50);
         sll.addAfter(11, 12);
         sll.addAfter(13, 14);
-//        sll.removeTarget(10);
-//        sll.removeTarget(14);
+        // sll.removeTarget(10);
+        // sll.removeTarget(14);
         System.out.println(sll.head.data);
         System.out.println(sll.tail.data);
-        
-//        sll.removeFirst();
-//        sll.removeLast();
+
+        // sll.removeFirst();
+        // sll.removeLast();
         sll.print();
     }
 }
@@ -57,6 +57,17 @@ class SLL {
         size++;
     }
 
+    public boolean isExist(int data) {
+        Node pointer = head;
+        while (pointer != null) {
+            if (pointer.data == data) {
+                return true;
+            }
+            pointer = pointer.next;
+        }
+        return false;
+    }
+
     public void addLast(int data) {
         Node input = new Node(data);
         if (isEmpty()) {
@@ -89,26 +100,26 @@ class SLL {
 
         }
     }
-    
-    public void removeTarget(int data){
-        if(isEmpty()){
+
+    public void removeTarget(int data) {
+        if (isEmpty()) {
             System.out.println("data kosong");
-        }else if(head.data == data){
+        } else if (head.data == data) {
             head = head.next;
             size--;
-        }else{
+        } else {
             Node pointer = head;
             Node nextPointer = head.next;
-            while(nextPointer!=null && !(nextPointer.data == data)){
+            while (nextPointer != null && !(nextPointer.data == data)) {
                 pointer = nextPointer;
                 nextPointer = nextPointer.next;
             }
-            if(nextPointer==null){
+            if (nextPointer == null) {
                 System.out.println("target tidak ada");
-            }else{
+            } else {
                 pointer.next = nextPointer.next;
                 size--;
-                if(nextPointer==tail){
+                if (nextPointer == tail) {
                     tail = pointer;
                 }
             }
