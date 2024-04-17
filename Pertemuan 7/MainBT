@@ -1,4 +1,3 @@
-
 public class MainBT {
     public static void main(String[] args) {
         BT bt = new BT();
