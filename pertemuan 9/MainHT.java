@@ -90,7 +90,7 @@ class HT {
     //  root
     //B      C
 
-    public void add(int input){
+    public void add(int input) {
         if (root == null) {
             root = new NodeHT(input);
             return;
@@ -105,7 +105,7 @@ class HT {
         Queue queue = new Queue();
         queue.enqueue(root);
         // queue : 3
-        while(!queue.isEmpty()){
+        while (!queue.isEmpty()) {
 
             NodeHT pointer = queue.dequeue();
             // pointer Node: 1
@@ -114,8 +114,7 @@ class HT {
                 last = pointer.left;
                 heapifyUp(pointer.left);
                 return;
-            }
-            else {
+            } else {
                 queue.enqueue(pointer.left);
             }
 
@@ -124,19 +123,19 @@ class HT {
                 last = pointer.right;
                 heapifyUp(pointer.right);
                 return;
-            }
-            else {
+            } else {
                 queue.enqueue(pointer.right);
             }
         }
 
     }
-    public void heapifyUp(NodeHT node){
-        if(node.parent==null){
+
+    public void heapifyUp(NodeHT node) {
+        if (node.parent == null) {
             return;
         }
         int parentData = node.parent.data;
-        if(node.data>parentData){
+        if (node.data > parentData) {
             node.parent.data = node.data;
             node.data = parentData;
             heapifyUp(node.parent);
@@ -144,72 +143,71 @@ class HT {
 
     }
 
-    public int max(){
-        if(root==null) {
+    public int max() {
+        if (root == null) {
             return -1;
         }
         int max = root.data;
-        if(root==last){
-            root=last=null;
-        }else{
-            if(last.parent != null){
+        if (root == last) {
+            root = last = null;
+        } else {
+            if (last.parent != null) {
                 root.data = last.data;
-                if(last==last.parent.right){
+                if (last == last.parent.right) {
                     last.parent.right = null;
                     last = last.parent.left;
-                }else{
+                } else {
                     last.parent.left = null;
                     Queue queue = new Queue();
                     queue.enqueue(root);
                     // queue : 3
-                    last=root;
-                    while(!queue.isEmpty()){
+                    last = root;
+                    while (!queue.isEmpty()) {
                         NodeHT pointer = queue.dequeue();
                         // pointer Node: 1
                         if (pointer.left == null) {
                             break;
-                        }
-                        else {
+                        } else {
                             queue.enqueue(pointer.left);
                             last = pointer.left;
                         }
 
                         if (pointer.right == null) {
                             break;
-                        }
-                        else {
+                        } else {
                             queue.enqueue(pointer.right);
                             last = pointer.right;
                         }
                     }
                 }
-            }else{
-                root=last;
+            } else {
+                root = last;
             }
             heapifyDown(root);
         }
         return max;
     }
 
-    public void heapifyDown(NodeHT node){
+    public void heapifyDown(NodeHT node) {
         int parentData = node.data;
-        int leftData = 0, rightData=0;
-        if(node.left!=null){
+        int leftData = 0, rightData = 0;
+        if (node.left != null) {
             leftData = node.left.data;
         }
-        if(node.right!=null){
-            leftData = node.right.data;
+        if (node.right != null) {
+            rightData = node.right.data;
         }
-        if(leftData>parentData || rightData>parentData){
-            if(leftData > rightData){
+        if (leftData > parentData || rightData > parentData) {
+            if (leftData > rightData) {
                 node.data = leftData;
                 node.left.data = parentData;
                 heapifyDown(node.left);
-            }else{
+            } else {
                 node.data = rightData;
                 node.right.data = parentData;
                 heapifyDown(node.right);
-            }if(node.data !=0){
+            }
+            if (node.data != 0) {
                 heapifyDown(node);
             }
 
@@ -217,8 +215,8 @@ class HT {
     }
 
 
-    public void preorder(NodeHT current){
-        if(root==null)return;
+    public void preorder(NodeHT current) {
+        if (root == null) return;
         System.out.print(current.data + " ");
         if (current.left != null) {
             preorder(current.left);
@@ -229,49 +227,48 @@ class HT {
     }
     //pre-order?
     //post-order?
+}
+class NodeQueue {
+    NodeHT data;
+    NodeQueue next;
 
-    class NodeQueue {
-        NodeHT data;
-        NodeQueue next;
+    public NodeQueue(NodeHT data) {
+        this.data = data;
+        this.next = null;
+    }
+}
 
-        public NodeQueue(NodeHT data) {
-            this.data = data;
-            this.next = null;
-        }
+class Queue {
+    NodeQueue head, tail;
+    int size = 0;
+
+    public int size() {
+        return size;
     }
 
-    class Queue {
-        NodeQueue head, tail;
-        int size = 0;
+    public boolean isEmpty() {
+        return size == 0;
+    }
 
-        public int size() {
-            return size;
+    public void enqueue(NodeHT data) {
+        NodeQueue input = new NodeQueue(data);
+        if (isEmpty()) {
+            head = tail = input;
         }
+        else {
+            tail.next = input;
+            tail = input;
+        }
+        size++;
+    }
 
-        public boolean isEmpty() {
-            return size == 0;
+    public NodeHT dequeue() {
+        if (!isEmpty()) {
+            NodeHT temp = head.data;
+            head = head.next;
+            size--;
+            return temp;
         }
-
-        public void enqueue(NodeHT data) {
-            NodeQueue input = new NodeQueue(data);
-            if (isEmpty()) {
-                head = tail = input;
-            }
-            else {
-                tail.next = input;
-                tail = input;
-            }
-            size++;
-        }
-
-        public NodeHT dequeue() {
-            if (!isEmpty()) {
-                NodeHT temp = head.data;
-                head = head.next;
-                size--;
-                return temp;
-            }
-            return null;
-        }
+        return null;
     }
 }
